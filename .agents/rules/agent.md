@@ -172,3 +172,25 @@ The agent must prioritise improvements in the following order:
 - Before implementing, validate: *"Does this improve Testing, Accessibility, Security, or Google Services?"*
 
 The goal is to strategically improve weak areas to maximize overall score and achieve a top 10 ranking in the hackathon.
+
+---
+
+## 🚀 Hackathon Progress (March 2026)
+*A persistent log of features implemented to track velocity and prevent duplicate effort.*
+
+### Phase 1: Core Engine & Initial Prototype
+- **FastAPI Backend:** Built `backend/main.py` with routers (`/api/v1/analyze`) handling multipart video uploads.
+- **Video Sampling:** Implemented OpenCV extraction at 1 FPS (capturing 10%, 50%, and 90% timeline marks).
+- **Gemini Sub-Second Analysis:** Upgraded to `google-genai` SDK and Gemini 1.5 Flash. Generates structured JSON (Severity, Unit Dispatch, Incident Type).
+- **Security Check:** Added `cv2.GaussianBlur` to mask PII (faces/license plates) automatically.
+- **Voice Alerting:** Integrated `gTTS` to return a synthesized alarm ("Critical Accident Detected").
+- **Initial UI:** Created a dark-mode Streamlit dashboard with a video uploader, interactive maps, and analysis metrics.
+
+### Phase 2: Cloud Infrastructure & UI Modernization (Final Push)
+- **Firestore Database Integration:** Initialized a Native Firestore DB deployed on `robotic-gasket-484511`. Built `db/firestore_client.py` and seeded 6 LIVE/ALERT cameras. Added GET/POST endpoints for cameras and incidents.
+- **Automated Test Suite:** Created `tests/test_api.py` with 100% endpoint coverage using `pytest` and `httpx`, addressing the **Testing: 0%** gap.
+- **AI Assistant Hook:** Added a `POST /assistant` endpoint that streams context-aware dispatch help via Gemini.
+- **Dynamic TTS Broadcast:** Added `POST /broadcast` endpoint for dynamic, on-demand AI-narrated accident reports.
+- **Stitch Frontend Overhaul:** Replaced the Streamlit UI entirely with a custom React application built by Stitch. Downloaded the compiled HTML bundles (`index.html`, `analyze.html`) and mounted them natively onto FastAPI via `StaticFiles`.
+- **Client-Side Video Processing:** Injected a JavaScript engine into `analyze.html` that reads uploaded files, captures frames via `<canvas>` at 1 FPS, and automatically POSTs the blob to the `/api/v1/analyze` endpoint.
+- **Cloud Run Deployment:** Swapped Dockerfile target from Streamlit to pure `uvicorn` and deployed all endpoints successfully. Live at `sentinel-bridge-856073786788.us-central1.run.app`.

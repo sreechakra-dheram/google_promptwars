@@ -7,7 +7,6 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -19,16 +18,9 @@
         .hard-edge {
             border-radius: 0px !important;
         }
-        /* Custom scrollbar for tactical feel */
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0c0e13;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1f2634;
-        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #0c0e13; }
+        ::-webkit-scrollbar-thumb { background: #1f2634; }
     </style>
 <script id="tailwind-config">
       tailwind.config = {
@@ -140,29 +132,29 @@
 </div>
 <nav class="flex-1 py-4">
 <div class="text-outline px-6 py-2 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Systems</div>
-<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="/">
 <span class="material-symbols-outlined" data-icon="terminal">terminal</span> Mission Control
-                </a>
+</a>
 <a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
 <span class="material-symbols-outlined" data-icon="Timeline">timeline</span> Live Telemetry
-                </a>
-<a class="flex items-center gap-3 bg-[#1b202b] text-[#66d8d2] border-l-4 border-[#66d8d2] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+</a>
+<a class="flex items-center gap-3 bg-[#1b202b] text-[#66d8d2] border-l-4 border-[#66d8d2] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="/analyze">
 <span class="material-symbols-outlined" data-icon="history_edu">history_edu</span> Incident Logs
-                </a>
+</a>
 <a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
 <span class="material-symbols-outlined" data-icon="map">map</span> Asset Map
-                </a>
+</a>
 <a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
 <span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span> System Health
-                </a>
+</a>
 </nav>
 <div class="mt-auto border-t border-[#1b202b] py-4">
 <a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
 <span class="material-symbols-outlined" data-icon="help_outline">help_outline</span> Support
-                </a>
+</a>
 <a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
 <span class="material-symbols-outlined" data-icon="logout">logout</span> Logout
-                </a>
+</a>
 </div>
 </aside>
 <!-- Main Content Canvas -->
@@ -175,19 +167,21 @@
 <p class="text-on-surface-variant text-sm">Upload raw surveillance data for tactical processing.</p>
 </header>
 <!-- Drag & Drop Zone -->
-<div class="group relative border-2 border-dashed border-outline-variant hover:border-primary transition-colors flex flex-col items-center justify-center p-12 bg-surface-container-low">
-<span class="material-symbols-outlined text-4xl text-outline mb-4 group-hover:text-primary transition-colors" data-icon="photo_camera">photo_camera</span>
-<h3 class="text-on-surface font-bold text-sm uppercase tracking-wider mb-2">Drop CCTV footage here</h3>
-<p class="text-outline text-xs">Supports MP4, AVI, MOV · Analyzed at 1 FPS</p>
+<div id="dropZone" class="group relative border-2 border-dashed border-outline-variant hover:border-primary transition-colors flex flex-col items-center justify-center p-12 bg-surface-container-low">
+<span id="dropIcon" class="material-symbols-outlined text-4xl text-outline mb-4 group-hover:text-primary transition-colors" data-icon="photo_camera">photo_camera</span>
+<div id="dropZoneLabel">
+<h3 class="text-on-surface font-bold text-sm uppercase tracking-wider mb-2 text-center">Drop CCTV footage here</h3>
+<p class="text-outline text-xs text-center">Supports MP4, AVI, MOV · Analyzed at 1 FPS</p>
+</div>
 <input id="videoUpload" accept="video/*" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
-<video id="hiddenVideo" style="display:none;" muted></video>
+<video id="hiddenVideo" style="display:none;" muted preload="metadata"></video>
 <canvas id="hiddenCanvas" style="display:none;"></canvas>
 </div>
 <!-- Dropdown Control -->
 <div class="space-y-2">
 <label class="block text-[10px] font-black uppercase tracking-widest text-outline">Select Camera ID</label>
 <div class="relative">
-<select class="w-full bg-surface-container-low border-b-2 border-outline-variant text-on-surface p-4 focus:outline-none focus:border-primary appearance-none font-mono text-sm uppercase tracking-tighter hard-edge">
+<select id="cameraSelect" class="w-full bg-surface-container-low border-b-2 border-outline-variant text-on-surface p-4 focus:outline-none focus:border-primary appearance-none font-mono text-sm uppercase tracking-tighter hard-edge">
 <option>CAM-001</option>
 <option>CAM-002</option>
 <option>CAM-003</option>
@@ -199,114 +193,103 @@
 </div>
 </div>
 <!-- CTA Button -->
-<button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary-fixed font-black py-5 uppercase tracking-[0.2em] text-sm transition-all active:scale-[0.98] hard-edge">
+<button id="runBtn" class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary-fixed font-black py-5 uppercase tracking-[0.2em] text-sm transition-all active:scale-[0.98] hard-edge">
                         Run Sentinel Engine
                     </button>
-<!-- Processing Simulation -->
-<div class="bg-surface-container p-6 space-y-6">
+<!-- Processing Status -->
+<div id="progressSection" class="bg-surface-container p-6 space-y-6 hidden">
 <div class="flex items-center justify-between mb-2">
 <span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">System Status</span>
-<span class="text-[10px] font-mono text-primary">82% COMPLETE</span>
+<span id="progressPercent" class="text-[10px] font-mono text-primary">0% COMPLETE</span>
 </div>
 <div class="w-full bg-surface-container-highest h-1">
-<div class="bg-primary h-full w-[82%] relative">
+<div id="progressBar" class="bg-primary h-full w-0 relative transition-all duration-500">
 <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary animate-pulse"></div>
 </div>
 </div>
 <div class="space-y-4">
-<div class="flex items-center gap-3 text-xs">
-<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span class="text-on-surface font-medium uppercase tracking-tight">Sampling frames at 1 FPS...</span>
+<div id="step1" class="flex items-center gap-3 text-xs opacity-30">
+<div class="h-4 w-4 border-2 border-outline-variant"></div>
+<span class="text-on-surface font-medium uppercase tracking-tight">Uploading video to backend...</span>
 </div>
-<div class="flex items-center gap-3 text-xs">
-<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-<span class="text-on-surface font-medium uppercase tracking-tight">Running PII masking...</span>
+<div id="step2" class="flex items-center gap-3 text-xs opacity-30">
+<div class="h-4 w-4 border-2 border-outline-variant"></div>
+<span class="text-on-surface font-medium uppercase tracking-tight">Extracting frames &amp; PII masking...</span>
 </div>
-<div class="flex items-center gap-3 text-xs">
-<div class="h-4 w-4 border-2 border-primary/30 border-t-primary animate-spin"></div>
-<span class="text-primary font-bold uppercase tracking-tight">Gemini 1.5 Flash analyzing frames...</span>
+<div id="step3" class="flex items-center gap-3 text-xs opacity-30">
+<div class="h-4 w-4 border-2 border-outline-variant"></div>
+<span class="text-on-surface font-medium uppercase tracking-tight">Gemini 1.5 Flash analyzing frames...</span>
 </div>
 </div>
 </div>
 </div>
 </section>
 <!-- Right Column: Results Panel -->
-<section class="w-full md:w-[450px] bg-surface-container-low p-8 overflow-y-auto border-l border-outline-variant/10">
+<section id="resultsPanel" class="w-full md:w-[450px] bg-surface-container-low p-8 overflow-y-auto border-l border-outline-variant/10">
 <div class="space-y-8">
 <header class="flex items-center justify-between">
 <h2 class="text-lg font-bold uppercase tracking-tighter text-on-surface">Analysis Results</h2>
-<span class="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest">
-<span class="w-2 h-2 bg-secondary animate-pulse"></span> Data Live
-                        </span>
+<span id="dataLiveIndicator" class="flex items-center gap-2 text-[10px] font-black text-outline uppercase tracking-widest">
+<span class="w-2 h-2 bg-outline"></span> Awaiting Data
+</span>
 </header>
 <!-- Thumbnails -->
-<div class="grid grid-cols-3 gap-2">
-<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2 group relative cursor-pointer">
-<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Dark street view pre impact" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC4te0SROGratTsmpzpTd0cIQh3zX38zL2XuidymvZuDfcDz0q54ySQbqg12NvILUtw_1-CUlrobjLmI9M-ZI46q0tWkk6g8o1Ml5cY_0KpbPoTNjOnNag_Eq62qGPoX_VoAdNfT3DeieP7q1YQbKDZlc7FE77xUdURgqXSRX__XEBuqXF7ixNkdw6qNig3mODmYt03GuwxmTF--wS6fs0PI2NgGhbsRTkiIBpimVd_ZxzWrQOivPQoskMzAxH3qS0bojFqKDlC3kW"/>
-<span class="relative text-[9px] font-black uppercase text-on-surface mt-auto">Pre-impact</span>
+<div id="thumbnailGrid" class="grid grid-cols-3 gap-2">
+<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2">
+<span class="material-symbols-outlined text-2xl text-outline mb-1">image</span>
+<span class="text-[9px] font-black uppercase text-outline">Pre-impact</span>
 </div>
-<div class="aspect-video bg-surface-container-highest border border-tertiary/50 flex flex-col items-center justify-center p-2 group relative cursor-pointer">
-<img class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Dark street view vehicle impact" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA-eFyXhbxGShZNspYHxfQ4rWeF1RKuIP0lQRtf-_O4c6fwsahf2PDCg-_9iNqiJKjH_rYetQXWn26RELlIWjwOi_k7f8wgKR4G4VVbD1huDY2EyepJp88I6ht6peTOWgquY23YFuAOgFFgl5YE2pDUW4-bmOsN9ceume1626mZ5teaDmpa2jWeYBYDEFHMOz1Og5KnXKH-SFF2Wu8Hwgb2Iq2AEkfrwvOLuZSgGAdzjl-dyKdc50C4oX1EDM-10dVBbsXu2A-_Yi3"/>
-<span class="relative text-[9px] font-black uppercase text-tertiary mt-auto">Impact</span>
+<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2">
+<span class="material-symbols-outlined text-2xl text-outline mb-1">image</span>
+<span class="text-[9px] font-black uppercase text-outline">Impact</span>
 </div>
-<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2 group relative cursor-pointer">
-<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Dark street view aftermath collision" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVo9J5oB_oZV09BF_8jD3Lf6KBOd00bPLPRrPR0j_nVy7sb5kL6TonXwAhQpXYov_zvnbolR4JV8MYyW5rzcBRzxNp6EinoLYZy0Ggo_A4gz93WTbfsYaonq2-7TkH_E9APa-b2Hsz4wlF3sdQQ433stwX_wxuXwsJ8w9hRbhGg3jjV5R9fd6H746oQCRLPpNTHHu7Y6TbyPeqFVmooKlQ6Htd4AqLWXlm-Ob1qB70QppYIFJyMy-9ewsx-0eQCU43ttlihMn18hUq"/>
-<span class="relative text-[9px] font-black uppercase text-on-surface mt-auto">Aftermath</span>
+<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2">
+<span class="material-symbols-outlined text-2xl text-outline mb-1">image</span>
+<span class="text-[9px] font-black uppercase text-outline">Aftermath</span>
 </div>
 </div>
 <!-- Result Card -->
-<div class="bg-surface-container p-6 space-y-6">
+<div id="resultCard" class="bg-surface-container p-6 space-y-6 opacity-30">
 <div class="space-y-1">
 <label class="text-[9px] font-black text-outline uppercase tracking-[0.2em]">Detected Event</label>
-<h3 class="text-xl font-bold text-on-surface uppercase tracking-tight">Multi-vehicle Collision</h3>
+<h3 id="resultEvent" class="text-xl font-bold text-on-surface uppercase tracking-tight">—</h3>
 </div>
 <div class="space-y-2">
 <div class="flex justify-between items-end">
 <label class="text-[9px] font-black text-outline uppercase tracking-[0.2em]">Severity Score</label>
-<span class="text-tertiary font-mono text-lg font-bold">8.4 / 10</span>
+<span id="resultSeverity" class="text-tertiary font-mono text-lg font-bold">— / 10</span>
 </div>
 <div class="w-full h-2 bg-surface-container-highest">
-<div class="h-full bg-tertiary w-[84%]"></div>
+<div id="resultSeverityBar" class="h-full bg-tertiary w-0 transition-all duration-700"></div>
 </div>
 </div>
 <div class="grid grid-cols-2 gap-4">
 <div class="bg-surface-container-high p-4">
 <label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">Vehicle Count</label>
-<span class="text-2xl font-bold text-on-surface">03</span>
+<span id="resultVehicleCount" class="text-2xl font-bold text-on-surface">—</span>
 </div>
 <div class="bg-surface-container-high p-4">
-<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">Confidence</label>
-<span class="text-2xl font-bold text-secondary">99%</span>
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">Accident</label>
+<span id="resultAccident" class="text-2xl font-bold text-on-surface">—</span>
 </div>
 </div>
 <div class="space-y-3">
 <label class="text-[9px] font-black text-outline uppercase tracking-[0.2em]">Required Units</label>
-<div class="flex flex-wrap gap-2">
-<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-tertiary">
-<span class="material-symbols-outlined text-sm text-tertiary" data-icon="medical_services">medical_services</span>
-<span class="text-[10px] font-bold uppercase tracking-tight">EMS_02</span>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-error">
-<span class="material-symbols-outlined text-sm text-error" data-icon="local_fire_department">local_fire_department</span>
-<span class="text-[10px] font-bold uppercase tracking-tight">FIRE_01</span>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-primary">
-<span class="material-symbols-outlined text-sm text-primary" data-icon="local_police">local_police</span>
-<span class="text-[10px] font-bold uppercase tracking-tight">LEO_04</span>
-</div>
+<div id="resultUnits" class="flex flex-wrap gap-2">
+<span class="text-xs text-outline uppercase">No data yet</span>
 </div>
 </div>
 <div class="pt-4 border-t border-outline-variant/10">
 <label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">GPS Coordinate</label>
-<span class="font-mono text-sm tracking-tighter text-on-surface-variant">40.7128° N, 74.0060° W</span>
+<span id="resultGPS" class="font-mono text-sm tracking-tighter text-on-surface-variant">—</span>
 </div>
 </div>
 <!-- Action Buttons -->
 <div class="space-y-3">
-<button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary-fixed font-black py-4 uppercase tracking-[0.15em] text-xs hard-edge transition-colors">
+<button id="dispatchBtn" disabled class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary-fixed font-black py-4 uppercase tracking-[0.15em] text-xs hard-edge transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
                             Dispatch to Dashboard
                         </button>
-<button class="w-full border border-outline-variant hover:border-on-surface text-on-surface font-black py-4 uppercase tracking-[0.15em] text-xs hard-edge transition-colors">
+<button id="broadcastBtn" disabled class="w-full border border-outline-variant hover:border-on-surface text-on-surface font-black py-4 uppercase tracking-[0.15em] text-xs hard-edge transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
                             Generate Broadcast
                         </button>
 </div>
@@ -319,39 +302,309 @@
 </section>
 </main>
 </div>
-</div>
+<!-- Audio player for broadcast -->
+<audio id="broadcastAudio" style="display:none;"></audio>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('videoUpload');
-    if (!fileInput) return;
+    const video = document.getElementById('hiddenVideo');
+    const canvas = document.getElementById('hiddenCanvas');
+    const runBtn = document.getElementById('runBtn');
+    const progressSection = document.getElementById('progressSection');
+    const dropZoneLabel = document.getElementById('dropZoneLabel');
+    const dropIcon = document.getElementById('dropIcon');
+
+    let selectedFile = null;
+    let capturedThumbnails = [];
+    let lastAnalysis = null;
+
+    // --- File Selection ---
     fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const video = document.getElementById('hiddenVideo');
-        const canvas = document.getElementById('hiddenCanvas');
-        let lastTime = 0;
-        video.src = URL.createObjectURL(file);
+        selectedFile = e.target.files[0];
+        if (!selectedFile) return;
+
+        const sizeMB = (selectedFile.size / 1024 / 1024).toFixed(1);
+        dropIcon.textContent = 'check_circle';
+        dropIcon.classList.remove('text-outline');
+        dropIcon.classList.add('text-secondary');
+        dropZoneLabel.innerHTML = `
+            <h3 class="text-secondary font-bold text-sm uppercase tracking-wider mb-1 text-center">${selectedFile.name}</h3>
+            <p class="text-outline text-xs text-center">${sizeMB} MB · Ready for analysis</p>
+        `;
+
+        // Capture 3 thumbnails from the video
+        video.src = URL.createObjectURL(selectedFile);
         video.load();
-        video.addEventListener('loadeddata', () => {
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            video.play();
-        });
-        video.addEventListener('timeupdate', () => {
-            if (video.currentTime - lastTime >= 1) {
-                lastTime = video.currentTime;
+        capturedThumbnails = [];
+
+        video.addEventListener('loadedmetadata', function onMeta() {
+            video.removeEventListener('loadedmetadata', onMeta);
+            const duration = video.duration;
+            if (!duration || duration < 0.5) return;
+            const times = [duration * 0.1, duration * 0.5, duration * 0.9];
+            let idx = 0;
+
+            function onSeeked() {
+                canvas.width = video.videoWidth || 320;
+                canvas.height = video.videoHeight || 240;
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                canvas.toBlob(blob => {
-                    const formData = new FormData();
-                    formData.append('file', blob, 'frame.jpg');
-                    fetch('/api/v1/analyze', { method: 'POST', body: formData })
-                        .then(r => r.json())
-                        .then(data => console.log("Analysis Result:", data))
-                        .catch(err => console.error(err));
-                }, 'image/jpeg', 0.8);
+                capturedThumbnails.push(canvas.toDataURL('image/jpeg', 0.6));
+                idx++;
+                if (idx < times.length) {
+                    video.currentTime = times[idx];
+                } else {
+                    video.removeEventListener('seeked', onSeeked);
+                    renderThumbnails();
+                }
             }
+
+            video.addEventListener('seeked', onSeeked);
+            video.currentTime = times[0];
         });
+    });
+
+    // --- Render Thumbnails ---
+    function renderThumbnails() {
+        const labels = ['Pre-impact', 'Impact', 'Aftermath'];
+        const colors = ['text-on-surface', 'text-tertiary', 'text-on-surface'];
+        const borders = ['', 'border border-tertiary/50', ''];
+        const grid = document.getElementById('thumbnailGrid');
+        grid.innerHTML = '';
+        for (let i = 0; i < 3; i++) {
+            const src = capturedThumbnails[i] || '';
+            grid.innerHTML += `
+                <div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2 group relative cursor-pointer ${borders[i]}">
+                    ${src ? `<img class="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-70 transition-opacity" src="${src}" alt="${labels[i]}"/>` : `<span class="material-symbols-outlined text-2xl text-outline mb-1">image</span>`}
+                    <span class="relative text-[9px] font-black uppercase ${colors[i]} mt-auto">${labels[i]}</span>
+                </div>
+            `;
+        }
+    }
+
+    // --- Progress helpers ---
+    function setProgress(pct, label) {
+        document.getElementById('progressBar').style.width = pct + '%';
+        document.getElementById('progressPercent').textContent = pct + '% COMPLETE';
+    }
+
+    function activateStep(n) {
+        const el = document.getElementById('step' + n);
+        el.classList.remove('opacity-30');
+        el.classList.add('opacity-100');
+        el.querySelector('div').outerHTML = `<div class="h-4 w-4 border-2 border-primary/30 border-t-primary animate-spin"></div>`;
+    }
+
+    function completeStep(n) {
+        const el = document.getElementById('step' + n);
+        el.querySelector('div').outerHTML = `<span class="material-symbols-outlined text-secondary text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>`;
+    }
+
+    function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    // --- Run Analysis ---
+    runBtn.addEventListener('click', async () => {
+        if (!selectedFile) {
+            alert('Please upload a video first.');
+            return;
+        }
+
+        runBtn.disabled = true;
+        runBtn.textContent = 'PROCESSING...';
+        runBtn.classList.add('opacity-50');
+
+        // Reset & show progress
+        progressSection.classList.remove('hidden');
+        ['step1','step2','step3'].forEach(id => {
+            const el = document.getElementById(id);
+            el.classList.add('opacity-30');
+            el.classList.remove('opacity-100');
+        });
+        setProgress(0);
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        try {
+            // Step 1: Upload
+            activateStep(1);
+            setProgress(15);
+            await delay(300);
+
+            const response = await fetch('/api/v1/analyze', {
+                method: 'POST',
+                body: formData
+            });
+
+            completeStep(1);
+            setProgress(40);
+
+            // Step 2: Extraction (server-side, already done)
+            activateStep(2);
+            await delay(400);
+            completeStep(2);
+            setProgress(65);
+
+            // Step 3: Gemini analysis (server-side, already done)
+            activateStep(3);
+            setProgress(80);
+
+            const data = await response.json();
+
+            completeStep(3);
+            setProgress(100);
+
+            if (data.success && data.data) {
+                lastAnalysis = data.data;
+                displayResults(data.data);
+            } else {
+                alert('Analysis failed: ' + (data.error || 'Unknown error'));
+            }
+        } catch (err) {
+            console.error(err);
+            alert('Connection error: ' + err.message);
+        } finally {
+            runBtn.disabled = false;
+            runBtn.textContent = 'Run Sentinel Engine';
+            runBtn.classList.remove('opacity-50');
+        }
+    });
+
+    // --- Display Results ---
+    function displayResults(d) {
+        // Update live indicator
+        const indicator = document.getElementById('dataLiveIndicator');
+        indicator.innerHTML = `<span class="w-2 h-2 bg-secondary animate-pulse"></span> Data Live`;
+        indicator.classList.remove('text-outline');
+        indicator.classList.add('text-secondary');
+
+        // Result card
+        const card = document.getElementById('resultCard');
+        card.classList.remove('opacity-30');
+        card.classList.add('opacity-100');
+
+        document.getElementById('resultEvent').textContent = d.incident_type || 'Unknown';
+
+        const severity = d.severity_score || 0;
+        document.getElementById('resultSeverity').innerHTML = `${severity} <span class="text-sm opacity-60">/ 10</span>`;
+        document.getElementById('resultSeverityBar').style.width = (severity * 10) + '%';
+
+        document.getElementById('resultVehicleCount').textContent = String(d.vehicle_count || 0).padStart(2, '0');
+
+        const accidentEl = document.getElementById('resultAccident');
+        if (d.accident_detected) {
+            accidentEl.textContent = 'YES';
+            accidentEl.classList.add('text-tertiary');
+        } else {
+            accidentEl.textContent = 'NO';
+            accidentEl.classList.add('text-secondary');
+        }
+
+        // Units
+        const unitsContainer = document.getElementById('resultUnits');
+        const units = d.required_units || [];
+        if (units.length === 0 || (units.length === 1 && units[0] === 'None')) {
+            unitsContainer.innerHTML = `<span class="text-xs text-secondary uppercase">No units required</span>`;
+        } else {
+            const iconMap = {
+                'Ambulance': { icon: 'medical_services', color: 'tertiary' },
+                'EMS': { icon: 'medical_services', color: 'tertiary' },
+                'Police': { icon: 'local_police', color: 'primary' },
+                'Fire': { icon: 'local_fire_department', color: 'error' },
+            };
+            unitsContainer.innerHTML = units.map(u => {
+                const match = Object.entries(iconMap).find(([k]) => u.toLowerCase().includes(k.toLowerCase()));
+                const cfg = match ? match[1] : { icon: 'shield', color: 'primary' };
+                return `<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-${cfg.color}">
+                    <span class="material-symbols-outlined text-sm text-${cfg.color}">${cfg.icon}</span>
+                    <span class="text-[10px] font-bold uppercase tracking-tight">${u}</span>
+                </div>`;
+            }).join('');
+        }
+
+        // GPS
+        const lat = d.latitude || 0;
+        const lng = d.longitude || 0;
+        document.getElementById('resultGPS').textContent = `${Math.abs(lat).toFixed(4)}° ${lat >= 0 ? 'N' : 'S'}, ${Math.abs(lng).toFixed(4)}° ${lng >= 0 ? 'E' : 'W'}`;
+
+        // Enable action buttons
+        document.getElementById('dispatchBtn').disabled = false;
+        document.getElementById('broadcastBtn').disabled = false;
+    }
+
+    // --- Dispatch to Dashboard ---
+    document.getElementById('dispatchBtn').addEventListener('click', async () => {
+        if (!lastAnalysis) return;
+        const camId = document.getElementById('cameraSelect').value;
+        const btn = document.getElementById('dispatchBtn');
+        btn.disabled = true;
+        btn.textContent = 'DISPATCHING...';
+
+        try {
+            const res = await fetch(`/cameras/${camId}/incident`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ data: lastAnalysis })
+            });
+            const result = await res.json();
+            if (result.success) {
+                btn.textContent = 'DISPATCHED';
+                btn.classList.remove('bg-tertiary-container');
+                btn.classList.add('bg-secondary', 'text-white');
+            } else {
+                btn.textContent = 'DISPATCH FAILED';
+                btn.disabled = false;
+            }
+        } catch (err) {
+            console.error(err);
+            btn.textContent = 'Dispatch to Dashboard';
+            btn.disabled = false;
+            alert('Dispatch failed: ' + err.message);
+        }
+    });
+
+    // --- Generate Broadcast ---
+    document.getElementById('broadcastBtn').addEventListener('click', async () => {
+        if (!lastAnalysis) return;
+        const camId = document.getElementById('cameraSelect').value;
+        const btn = document.getElementById('broadcastBtn');
+        btn.disabled = true;
+        btn.textContent = 'GENERATING AUDIO...';
+
+        try {
+            const res = await fetch('/broadcast', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    cam_id: camId,
+                    incident_type: lastAnalysis.incident_type || 'Unknown incident',
+                    severity: lastAnalysis.severity_score || 0,
+                    address: `Camera ${camId} location`,
+                    units: lastAnalysis.required_units || []
+                })
+            });
+
+            if (res.ok) {
+                const blob = await res.blob();
+                const url = URL.createObjectURL(blob);
+                const audio = document.getElementById('broadcastAudio');
+                audio.src = url;
+                audio.play();
+                btn.textContent = 'PLAYING BROADCAST...';
+                audio.onended = () => {
+                    btn.textContent = 'Generate Broadcast';
+                    btn.disabled = false;
+                };
+            } else {
+                throw new Error('Broadcast generation failed');
+            }
+        } catch (err) {
+            console.error(err);
+            btn.textContent = 'Generate Broadcast';
+            btn.disabled = false;
+            alert('Broadcast error: ' + err.message);
+        }
     });
 });
 </script>
