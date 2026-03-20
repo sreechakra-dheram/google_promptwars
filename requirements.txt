@@ -1,0 +1,10 @@
+streamlit
+google-genai
+opencv-python-headless
+pydantic
+gTTS
+python-dotenv
+fastapi
+uvicorn
+python-multipart
+requests
