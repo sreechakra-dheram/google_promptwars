@@ -26,7 +26,7 @@ def analyze_frames(frames, api_key: str) -> dict:
         '''
         
         response = client.models.generate_content(
-            model='gemini-1.5-flash',
+            model='gemini-2.0-flash',
             contents=[prompt] + frames,
             config=types.GenerateContentConfig(
                 response_mime_type="application/json",
