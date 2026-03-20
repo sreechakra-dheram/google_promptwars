@@ -124,3 +124,51 @@ A build is **done** when:
 ---
 
 *Last updated: March 2026 · Antigravity workspace*
+
+---
+
+## 📊 Evaluation Breakdown & Improvement Focus
+
+### Current Score Summary
+The project has been evaluated with the following scores:
+- **Code Quality**: 90%
+- **Security**: 40%
+- **Efficiency**: 60%
+- **Testing**: 0%
+- **Accessibility**: 0%
+- **Google Services**: 25%
+- **Problem Statement Alignment**: 83.5%
+
+This indicates that while code quality and alignment are strong, there are critical gaps in testing, accessibility, security, and Google services integration.
+
+### 🚨 Priority Improvement Areas
+The agent must prioritise improvements in the following order:
+
+1. **Testing (0%)**
+   - Add basic validation for core flows
+   - Ensure demo reliability (no failures during presentation)
+2. **Accessibility (0%)**
+   - Improve UI clarity and usability
+   - Ensure readable text, proper contrast, and simple navigation
+3. **Google Services (25%)**
+   - Strengthen integration with services like Gemini API, Firebase (if needed), or Cloud Run.
+   - Integration must be meaningful, not superficial.
+4. **Security (40%)**
+   - Ensure .env variables are not exposed
+   - Validate inputs and API usage
+5. **Efficiency (60%)**
+   - Optimize unnecessary processes
+   - Avoid redundant API calls
+
+### 🎯 Strategy for Score Improvement
+- Focus on quick wins within time constraints (2-hour limit).
+- Avoid large refactors — prioritise high-impact, low-effort fixes.
+- Ensure all improvements directly contribute to evaluation criteria.
+- Strengthen demo reliability and clarity.
+
+### 🤖 Agent Behaviour Update
+- Always prioritise features that improve low-scoring categories.
+- Avoid adding features that do not impact evaluation criteria.
+- Before implementing, validate: *"Does this improve Testing, Accessibility, Security, or Google Services?"*
+
+The goal is to strategically improve weak areas to maximize overall score and achieve a top 10 ranking in the hackathon.

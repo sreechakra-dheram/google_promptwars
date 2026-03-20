@@ -8,3 +8,6 @@ fastapi
 uvicorn
 python-multipart
 requests
+google-cloud-firestore
+pytest
+httpx
