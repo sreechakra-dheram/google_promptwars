@@ -11,3 +11,4 @@ requests
 google-cloud-firestore
 pytest
 httpx
+pydantic-settings
