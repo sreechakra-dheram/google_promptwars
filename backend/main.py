@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from backend.routers import video
 import uvicorn
 import time
@@ -23,6 +24,16 @@ app.add_middleware(
 )
 
 app.include_router(video.router, prefix="/api/v1")
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/")
+def serve_index():
+    return FileResponse("static/index.html")
+
+@app.get("/analyze")
+def serve_analyze():
+    return FileResponse("static/analyze.html")
 
 @app.get("/health")
 def health_check():

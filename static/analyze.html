@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SENTINEL BRIDGE - Analyze Feed</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0e13;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hard-edge {
+            border-radius: 0px !important;
+        }
+        /* Custom scrollbar for tactical feel */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0c0e13;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2634;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary": "#ff716a",
+              "secondary": "#49b177",
+              "on-tertiary-container": "#1f0001",
+              "outline": "#6f7586",
+              "surface-container-lowest": "#000000",
+              "on-secondary-container": "#6dd396",
+              "error-dim": "#bb5551",
+              "inverse-on-surface": "#53555b",
+              "surface-container-low": "#10131a",
+              "tertiary-container": "#fd4f4d",
+              "on-primary": "#004846",
+              "primary-dim": "#56cac4",
+              "on-primary-fixed-variant": "#006763",
+              "on-secondary-fixed-variant": "#00693e",
+              "primary": "#66d8d2",
+              "surface-container-highest": "#1f2634",
+              "tertiary-fixed-dim": "#eb4242",
+              "secondary-dim": "#49b177",
+              "primary-fixed": "#84f5ee",
+              "on-secondary-fixed": "#004a29",
+              "tertiary-dim": "#ff716a",
+              "on-surface-variant": "#a5abbd",
+              "background": "#0c0e13",
+              "surface-container": "#161a23",
+              "surface-tint": "#66d8d2",
+              "surface-container-high": "#1b202b",
+              "on-surface": "#dfe5f8",
+              "on-error-container": "#ff9993",
+              "secondary-container": "#004527",
+              "secondary-fixed": "#91f8b8",
+              "on-secondary": "#002613",
+              "error": "#ee7d77",
+              "primary-fixed-dim": "#75e7e0",
+              "surface-dim": "#0c0e13",
+              "on-tertiary": "#490005",
+              "on-primary-fixed": "#004845",
+              "primary-container": "#00504d",
+              "tertiary-fixed": "#fd4f4d",
+              "inverse-surface": "#f9f9ff",
+              "on-tertiary-fixed": "#000000",
+              "on-background": "#dfe5f8",
+              "surface-bright": "#252c3d",
+              "secondary-fixed-dim": "#82e9aa",
+              "on-primary-container": "#70e2dc",
+              "error-container": "#7f2927",
+              "surface": "#0c0e13",
+              "inverse-primary": "#006b67",
+              "on-tertiary-fixed-variant": "#3b0003",
+              "outline-variant": "#424857",
+              "surface-variant": "#1f2634",
+              "on-error": "#490106"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="text-on-surface selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-6 h-16 bg-[#0c0e13] border-b border-[#1b202b]">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-tighter text-[#66d8d2]">SENTINEL BRIDGE</span>
+<nav class="hidden md:flex gap-6 items-center h-full pt-4">
+<a class="text-[#66d8d2] border-b-2 border-[#66d8d2] pb-2 transition-all duration-75 font-['Inter'] tracking-tight antialiased text-sm font-semibold uppercase" href="#">Analyze Feed</a>
+<a class="text-[#94a3b8] hover:text-white pb-2 transition-all duration-75 font-['Inter'] tracking-tight antialiased text-sm font-semibold uppercase" href="#">Dashboard</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-[#66d8d2] hover:bg-[#252c3d] transition-colors duration-150">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+</button>
+<button class="p-2 text-[#66d8d2] hover:bg-[#252c3d] transition-colors duration-150">
+<span class="material-symbols-outlined" data-icon="error">error</span>
+</button>
+<button class="p-2 text-[#66d8d2] hover:bg-[#252c3d] transition-colors duration-150">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+</button>
+<div class="ml-4 h-8 w-8 bg-surface-container-highest border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-xs" data-icon="person">person</span>
+</div>
+</div>
+</header>
+<div class="flex h-[calc(100vh-64px)] overflow-hidden">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-screen border-r border-[#1b202b] bg-[#0c0e13] w-64 shrink-0 hidden lg:flex">
+<div class="p-6 border-b border-[#1b202b]">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="terminal">terminal</span>
+</div>
+<div>
+<div class="text-[#66d8d2] font-black font-['Inter'] text-xs uppercase tracking-widest">OPERATOR_01</div>
+<div class="text-outline text-[10px] font-bold tracking-tighter uppercase">LEVEL_4_CLEARANCE</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4">
+<div class="text-outline px-6 py-2 text-[10px] font-bold uppercase tracking-[0.2em] mb-2">Systems</div>
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span> Mission Control
+                </a>
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="Timeline">timeline</span> Live Telemetry
+                </a>
+<a class="flex items-center gap-3 bg-[#1b202b] text-[#66d8d2] border-l-4 border-[#66d8d2] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span> Incident Logs
+                </a>
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="map">map</span> Asset Map
+                </a>
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span> System Health
+                </a>
+</nav>
+<div class="mt-auto border-t border-[#1b202b] py-4">
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span> Support
+                </a>
+<a class="flex items-center gap-3 text-[#94a3b8] hover:bg-[#161a23] px-4 py-3 font-['Inter'] text-xs font-bold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span> Logout
+                </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col md:flex-row bg-background overflow-y-auto">
+<!-- Left Column: Upload Panel -->
+<section class="flex-1 p-8 border-r border-outline-variant/10">
+<div class="max-w-xl mx-auto space-y-8">
+<header>
+<h1 class="text-2xl font-semibold tracking-tight text-on-surface uppercase mb-1">Analyze Feed</h1>
+<p class="text-on-surface-variant text-sm">Upload raw surveillance data for tactical processing.</p>
+</header>
+<!-- Drag & Drop Zone -->
+<div class="group relative border-2 border-dashed border-outline-variant hover:border-primary transition-colors flex flex-col items-center justify-center p-12 bg-surface-container-low">
+<span class="material-symbols-outlined text-4xl text-outline mb-4 group-hover:text-primary transition-colors" data-icon="photo_camera">photo_camera</span>
+<h3 class="text-on-surface font-bold text-sm uppercase tracking-wider mb-2">Drop CCTV footage here</h3>
+<p class="text-outline text-xs">Supports MP4, AVI, MOV · Analyzed at 1 FPS</p>
+<input class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+</div>
+<!-- Dropdown Control -->
+<div class="space-y-2">
+<label class="block text-[10px] font-black uppercase tracking-widest text-outline">Select Camera ID</label>
+<div class="relative">
+<select class="w-full bg-surface-container-low border-b-2 border-outline-variant text-on-surface p-4 focus:outline-none focus:border-primary appearance-none font-mono text-sm uppercase tracking-tighter hard-edge">
+<option>CAM-001</option>
+<option>CAM-002</option>
+<option>CAM-003</option>
+<option>CAM-004</option>
+<option>CAM-005</option>
+<option>CAM-006</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-outline" data-icon="expand_more">expand_more</span>
+</div>
+</div>
+<!-- CTA Button -->
+<button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary-fixed font-black py-5 uppercase tracking-[0.2em] text-sm transition-all active:scale-[0.98] hard-edge">
+                        Run Sentinel Engine
+                    </button>
+<!-- Processing Simulation -->
+<div class="bg-surface-container p-6 space-y-6">
+<div class="flex items-center justify-between mb-2">
+<span class="text-[10px] font-black text-primary uppercase tracking-[0.2em]">System Status</span>
+<span class="text-[10px] font-mono text-primary">82% COMPLETE</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1">
+<div class="bg-primary h-full w-[82%] relative">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary animate-pulse"></div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3 text-xs">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium uppercase tracking-tight">Sampling frames at 1 FPS...</span>
+</div>
+<div class="flex items-center gap-3 text-xs">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-on-surface font-medium uppercase tracking-tight">Running PII masking...</span>
+</div>
+<div class="flex items-center gap-3 text-xs">
+<div class="h-4 w-4 border-2 border-primary/30 border-t-primary animate-spin"></div>
+<span class="text-primary font-bold uppercase tracking-tight">Gemini 1.5 Flash analyzing frames...</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right Column: Results Panel -->
+<section class="w-full md:w-[450px] bg-surface-container-low p-8 overflow-y-auto border-l border-outline-variant/10">
+<div class="space-y-8">
+<header class="flex items-center justify-between">
+<h2 class="text-lg font-bold uppercase tracking-tighter text-on-surface">Analysis Results</h2>
+<span class="flex items-center gap-2 text-[10px] font-black text-secondary uppercase tracking-widest">
+<span class="w-2 h-2 bg-secondary animate-pulse"></span> Data Live
+                        </span>
+</header>
+<!-- Thumbnails -->
+<div class="grid grid-cols-3 gap-2">
+<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2 group relative cursor-pointer">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Dark street view pre impact" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC4te0SROGratTsmpzpTd0cIQh3zX38zL2XuidymvZuDfcDz0q54ySQbqg12NvILUtw_1-CUlrobjLmI9M-ZI46q0tWkk6g8o1Ml5cY_0KpbPoTNjOnNag_Eq62qGPoX_VoAdNfT3DeieP7q1YQbKDZlc7FE77xUdURgqXSRX__XEBuqXF7ixNkdw6qNig3mODmYt03GuwxmTF--wS6fs0PI2NgGhbsRTkiIBpimVd_ZxzWrQOivPQoskMzAxH3qS0bojFqKDlC3kW"/>
+<span class="relative text-[9px] font-black uppercase text-on-surface mt-auto">Pre-impact</span>
+</div>
+<div class="aspect-video bg-surface-container-highest border border-tertiary/50 flex flex-col items-center justify-center p-2 group relative cursor-pointer">
+<img class="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" data-alt="Dark street view vehicle impact" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA-eFyXhbxGShZNspYHxfQ4rWeF1RKuIP0lQRtf-_O4c6fwsahf2PDCg-_9iNqiJKjH_rYetQXWn26RELlIWjwOi_k7f8wgKR4G4VVbD1huDY2EyepJp88I6ht6peTOWgquY23YFuAOgFFgl5YE2pDUW4-bmOsN9ceume1626mZ5teaDmpa2jWeYBYDEFHMOz1Og5KnXKH-SFF2Wu8Hwgb2Iq2AEkfrwvOLuZSgGAdzjl-dyKdc50C4oX1EDM-10dVBbsXu2A-_Yi3"/>
+<span class="relative text-[9px] font-black uppercase text-tertiary mt-auto">Impact</span>
+</div>
+<div class="aspect-video bg-surface-container-highest flex flex-col items-center justify-center p-2 group relative cursor-pointer">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity" data-alt="Dark street view aftermath collision" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVo9J5oB_oZV09BF_8jD3Lf6KBOd00bPLPRrPR0j_nVy7sb5kL6TonXwAhQpXYov_zvnbolR4JV8MYyW5rzcBRzxNp6EinoLYZy0Ggo_A4gz93WTbfsYaonq2-7TkH_E9APa-b2Hsz4wlF3sdQQ433stwX_wxuXwsJ8w9hRbhGg3jjV5R9fd6H746oQCRLPpNTHHu7Y6TbyPeqFVmooKlQ6Htd4AqLWXlm-Ob1qB70QppYIFJyMy-9ewsx-0eQCU43ttlihMn18hUq"/>
+<span class="relative text-[9px] font-black uppercase text-on-surface mt-auto">Aftermath</span>
+</div>
+</div>
+<!-- Result Card -->
+<div class="bg-surface-container p-6 space-y-6">
+<div class="space-y-1">
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em]">Detected Event</label>
+<h3 class="text-xl font-bold text-on-surface uppercase tracking-tight">Multi-vehicle Collision</h3>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-end">
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em]">Severity Score</label>
+<span class="text-tertiary font-mono text-lg font-bold">8.4 / 10</span>
+</div>
+<div class="w-full h-2 bg-surface-container-highest">
+<div class="h-full bg-tertiary w-[84%]"></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-high p-4">
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">Vehicle Count</label>
+<span class="text-2xl font-bold text-on-surface">03</span>
+</div>
+<div class="bg-surface-container-high p-4">
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">Confidence</label>
+<span class="text-2xl font-bold text-secondary">99%</span>
+</div>
+</div>
+<div class="space-y-3">
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em]">Required Units</label>
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-tertiary">
+<span class="material-symbols-outlined text-sm text-tertiary" data-icon="medical_services">medical_services</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">EMS_02</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-error">
+<span class="material-symbols-outlined text-sm text-error" data-icon="local_fire_department">local_fire_department</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">FIRE_01</span>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-highest px-3 py-1.5 border-l-2 border-primary">
+<span class="material-symbols-outlined text-sm text-primary" data-icon="local_police">local_police</span>
+<span class="text-[10px] font-bold uppercase tracking-tight">LEO_04</span>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-outline-variant/10">
+<label class="text-[9px] font-black text-outline uppercase tracking-[0.2em] block mb-1">GPS Coordinate</label>
+<span class="font-mono text-sm tracking-tighter text-on-surface-variant">40.7128° N, 74.0060° W</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="space-y-3">
+<button class="w-full bg-tertiary-container hover:bg-tertiary text-on-tertiary-fixed font-black py-4 uppercase tracking-[0.15em] text-xs hard-edge transition-colors">
+                            Dispatch to Dashboard
+                        </button>
+<button class="w-full border border-outline-variant hover:border-on-surface text-on-surface font-black py-4 uppercase tracking-[0.15em] text-xs hard-edge transition-colors">
+                            Generate Broadcast
+                        </button>
+</div>
+<div class="text-center pt-2">
+<a class="text-on-surface-variant hover:text-white transition-colors text-xs uppercase font-bold tracking-widest inline-flex items-center gap-2" href="#">
+                            View in Dashboard <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+</div>
+</body></html>
