@@ -105,8 +105,8 @@
 <div class="flex items-center gap-8">
 <span class="text-xl font-black tracking-tighter text-[#66d8d2]">SENTINEL BRIDGE</span>
 <nav class="hidden md:flex gap-6 items-center h-full pt-4">
-<a class="text-[#66d8d2] border-b-2 border-[#66d8d2] pb-2 transition-all duration-75 font-['Inter'] tracking-tight antialiased text-sm font-semibold uppercase" href="#">Analyze Feed</a>
-<a class="text-[#94a3b8] hover:text-white pb-2 transition-all duration-75 font-['Inter'] tracking-tight antialiased text-sm font-semibold uppercase" href="#">Dashboard</a>
+<a class="text-[#66d8d2] border-b-2 border-[#66d8d2] pb-2 transition-all duration-75 font-['Inter'] tracking-tight antialiased text-sm font-semibold uppercase" href="/analyze">Analyze Feed</a>
+<a class="text-[#94a3b8] hover:text-white pb-2 transition-all duration-75 font-['Inter'] tracking-tight antialiased text-sm font-semibold uppercase" href="/">Dashboard</a>
 </nav>
 </div>
 <div class="flex items-center gap-4">
@@ -179,7 +179,9 @@
 <span class="material-symbols-outlined text-4xl text-outline mb-4 group-hover:text-primary transition-colors" data-icon="photo_camera">photo_camera</span>
 <h3 class="text-on-surface font-bold text-sm uppercase tracking-wider mb-2">Drop CCTV footage here</h3>
 <p class="text-outline text-xs">Supports MP4, AVI, MOV · Analyzed at 1 FPS</p>
-<input class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+<input id="videoUpload" accept="video/*" class="absolute inset-0 opacity-0 cursor-pointer" type="file"/>
+<video id="hiddenVideo" style="display:none;" muted></video>
+<canvas id="hiddenCanvas" style="display:none;"></canvas>
 </div>
 <!-- Dropdown Control -->
 <div class="space-y-2">
@@ -309,7 +311,7 @@
                         </button>
 </div>
 <div class="text-center pt-2">
-<a class="text-on-surface-variant hover:text-white transition-colors text-xs uppercase font-bold tracking-widest inline-flex items-center gap-2" href="#">
+<a class="text-on-surface-variant hover:text-white transition-colors text-xs uppercase font-bold tracking-widest inline-flex items-center gap-2" href="/">
                             View in Dashboard <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
 </a>
 </div>
@@ -317,4 +319,40 @@
 </section>
 </main>
 </div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('videoUpload');
+    if (!fileInput) return;
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const video = document.getElementById('hiddenVideo');
+        const canvas = document.getElementById('hiddenCanvas');
+        let lastTime = 0;
+        video.src = URL.createObjectURL(file);
+        video.load();
+        video.addEventListener('loadeddata', () => {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            video.play();
+        });
+        video.addEventListener('timeupdate', () => {
+            if (video.currentTime - lastTime >= 1) {
+                lastTime = video.currentTime;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.toBlob(blob => {
+                    const formData = new FormData();
+                    formData.append('file', blob, 'frame.jpg');
+                    fetch('/api/v1/analyze', { method: 'POST', body: formData })
+                        .then(r => r.json())
+                        .then(data => console.log("Analysis Result:", data))
+                        .catch(err => console.error(err));
+                }, 'image/jpeg', 0.8);
+            }
+        });
+    });
+});
+</script>
 </body></html>
